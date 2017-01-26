@@ -9,7 +9,7 @@
             <div class="md-title">Profiel bewerken</div>            
         </md-card-header>
         
-        <form novalidate @submit.stop.prevent="submit">
+        <form novalidate @submit.stop.prevent="submit" >
             <md-card-content>
                 <md-input-container>
                     <label>Voornaam</label>
@@ -28,7 +28,7 @@
             <md-card-actions>
                 <md-button class="md-raised md-warn md-left" md-align="start">Verwijderen</md-button>
                 <router-link tag="md-button" :to="{name: 'leden'}">Annuleren</router-link>                
-                <md-button class="md-raised md-primary">Opslaan</md-button>
+                <md-button class="md-raised md-primary" v-on:click="saveProfile()">Opslaan</md-button>
             </md-card-actions>
         </form>
     </md-table-card>
@@ -95,13 +95,15 @@ export default {
             });
 
             instance.put('user/' + this.$route.params.id, {
-                    params: {
-                        origin: "*"
-                    }
+                    
+                        'first_name' : this.user.first_name,
+                        'last_name' : this.user.last_name,
+                        'email' : this.user.email
+                    
                 })
                 .then(response => {
                     this.loading = false;                    
-                    this.user = response.data.user[0];
+//                    this.user = response.data.user[0];
                 })
                 .catch(function (error) {
                     console.log(error);
